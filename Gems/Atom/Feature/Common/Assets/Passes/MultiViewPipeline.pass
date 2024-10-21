@@ -10,6 +10,38 @@
                 {
                     "Name": "PipelineOutput",
                     "SlotType": "InputOutput"
+                },
+                {
+                    "Name": "UiTargetSlot",
+                    "SlotType": "InputOutput",
+                    "LoadStoreAction": {
+                        "ClearValue": {
+                            "Value": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ]
+                        },
+                        "LoadAction": "Clear",
+                        "LoadActionStencil": "Clear"
+                    }
+                }
+            ],
+            "Connections": [
+                {
+                    "LocalSlot": "UiTargetSlot",
+                    "AttachmentRef": {
+                        "Pass": "This",
+                        "Attachment": "UiTargetAttachment"
+                    }
+                },
+                {
+                    "LocalSlot": "UiTargetTextureSlot",
+                    "AttachmentRef": {
+                        "Pass": "This",
+                        "Attachment": "UiTargetTexture"
+                    }
                 }
             ],
             "PassData": {
@@ -19,8 +51,35 @@
                         "GlobalName": "PipelineOutput",
                         "Slot": "PipelineOutput"
                     }
+                    ,
+                    {
+                        "GlobalName": "UiTargetOutput",
+                        "Slot": "UiTargetSlot"
+                    }
                 ]
             },
+            "ImageAttachments": [
+                {
+                    "Name": "UiTargetAttachment",
+                    "SizeSource": {
+                        "Source": {
+                            "Pass": "This",
+                            "Attachment": "PipelineOutput"
+                        }
+                    },
+                    "FormatSource": {
+                        "Pass": "This",
+                        "Attachment": "PipelineOutput"
+                    }
+                },
+                {
+                    "Name": "UiTargetTexture",
+                    "Lifetime": "Imported",
+                    "AssetRef": {
+                        "FilePath": "Textures/UiTargetTexture.attimage"
+                    }
+                }
+            ],
             "PassRequests": [
                 {
                     "Name": "MorphTargetPass",
@@ -145,6 +204,26 @@
                         {
                             "LocalSlot": "InputOutput",
                             "AttachmentRef": {
+                                "Pass": "Parent",
+                                "Attachment": "UiTargetAttachment"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "Name": "CopyUiToFinalOutput",
+                    "TemplateName": "FullscreenCopyTemplate",
+                    "Connections": [
+                        {
+                            "LocalSlot": "Input",
+                            "AttachmentRef": {
+                                "Pass": "Parent",
+                                "Attachment": "UiTargetTexture"
+                            }
+                        },
+                        {
+                            "LocalSlot": "Output",
+                            "AttachmentRef": {
                                 "Pass": "AuxGeomPass",
                                 "Attachment": "ColorInputOutput"
                             }
@@ -158,8 +237,10 @@
                         {
                             "LocalSlot": "Input",
                             "AttachmentRef": {
-                                "Pass": "UIPass",
-                                "Attachment": "InputOutput"
+                                // "Pass": "AuxGeomPass",
+                                // "Attachment": "ColorInputOutput"
+                                "Pass": "Parent",
+                                "Attachment": "UiTargetAttachment"
                             }
                         },
                         {
@@ -167,6 +248,26 @@
                             "AttachmentRef": {
                                 "Pass": "Parent",
                                 "Attachment": "PipelineOutput"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "Name": "CopyToUiTargetTexture",
+                    "TemplateName": "FullscreenCopyTemplate",
+                    "Connections": [
+                        {
+                            "LocalSlot": "Input",
+                            "AttachmentRef": {
+                                "Pass": "Parent",
+                                "Attachment": "UiTargetAttachment"
+                            }
+                        },
+                        {
+                            "LocalSlot": "Output",
+                            "AttachmentRef": {
+                                "Pass": "Parent",
+                                "Attachment": "UiTargetTexture"
                             }
                         }
                     ]

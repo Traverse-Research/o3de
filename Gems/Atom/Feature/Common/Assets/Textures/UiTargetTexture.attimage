@@ -1,0 +1,21 @@
+{
+    "Type": "JsonSerialization",
+    "Version": 1,
+    "ClassName": "AttachmentImageAsset",
+    "ClassData": {
+        "m_imageDescriptor": {
+            "BindFlags": [
+                "ShaderRead",
+                "ShaderWrite",
+				"color"
+            ],
+            "Size": {
+                "Width": 1024,
+                "Height": 1024
+            },
+            "Format": 19
+        },
+        "Name": "$UiTargetTexture",
+        "IsUniqueName": true
+    }
+}
