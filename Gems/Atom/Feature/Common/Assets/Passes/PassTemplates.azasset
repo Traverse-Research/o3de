@@ -61,6 +61,10 @@
                 "Path": "Passes/FullscreenCopy.pass"
             },
             {
+                "Name": "CopyPasteAlphaBlendTemplate",
+                "Path": "Passes/Traverse/CopyPasteAlphaBlend.pass"
+            },
+            {
                 "Name": "ModulateTextureTemplate",
                 "Path": "Passes/ModulateTexture.pass"
             },

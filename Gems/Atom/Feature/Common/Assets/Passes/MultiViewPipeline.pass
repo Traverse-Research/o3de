@@ -211,6 +211,26 @@
                     ]
                 },
                 {
+                    "Name": "UiTargetToViewport",
+                    "TemplateName": "CopyPasteAlphaBlendTemplate",
+                    "Connections": [
+                        {
+                            "LocalSlot": "Input",
+                            "AttachmentRef": {
+                                "Pass": "Parent",
+                                "Attachment": "UiTargetAttachment"
+                            }
+                        },
+                        {
+                            "LocalSlot": "Output",
+                            "AttachmentRef": {
+                                "Pass": "AuxGeomPass",
+                                "Attachment": "ColorInputOutput"
+                            }
+                        }
+                    ]
+                },
+                {
                     "Name": "CopyToSwapChain",
                     "TemplateName": "FullscreenCopyTemplate",
                     "Connections": [
