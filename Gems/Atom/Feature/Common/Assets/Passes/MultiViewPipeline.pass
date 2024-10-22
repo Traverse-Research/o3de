@@ -191,7 +191,7 @@
                     }
                 },
                 {
-                    "Name": "UIPass",
+                    "Name": "UiPassToTexture",
                     "TemplateName": "UIParentTemplate",
                     "Connections": [  
                         {
@@ -211,36 +211,14 @@
                     ]
                 },
                 {
-                    "Name": "CopyUiToFinalOutput",
-                    "TemplateName": "FullscreenCopyTemplate",
-                    "Connections": [
-                        {
-                            "LocalSlot": "Input",
-                            "AttachmentRef": {
-                                "Pass": "Parent",
-                                "Attachment": "UiTargetTexture"
-                            }
-                        },
-                        {
-                            "LocalSlot": "Output",
-                            "AttachmentRef": {
-                                "Pass": "AuxGeomPass",
-                                "Attachment": "ColorInputOutput"
-                            }
-                        }
-                    ]
-                },
-                {
                     "Name": "CopyToSwapChain",
                     "TemplateName": "FullscreenCopyTemplate",
                     "Connections": [
                         {
                             "LocalSlot": "Input",
                             "AttachmentRef": {
-                                // "Pass": "AuxGeomPass",
-                                // "Attachment": "ColorInputOutput"
-                                "Pass": "Parent",
-                                "Attachment": "UiTargetAttachment"
+                                "Pass": "AuxGeomPass",
+                                "Attachment": "ColorInputOutput"
                             }
                         },
                         {
