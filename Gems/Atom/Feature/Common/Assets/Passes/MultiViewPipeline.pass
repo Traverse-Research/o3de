@@ -35,13 +35,6 @@
                         "Pass": "This",
                         "Attachment": "UiTargetAttachment"
                     }
-                },
-                {
-                    "LocalSlot": "UiTargetTextureSlot",
-                    "AttachmentRef": {
-                        "Pass": "This",
-                        "Attachment": "UiTargetTexture"
-                    }
                 }
             ],
             "PassData": {
