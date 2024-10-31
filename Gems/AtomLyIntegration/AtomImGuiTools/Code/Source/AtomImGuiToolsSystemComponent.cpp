@@ -174,6 +174,6 @@ namespace AtomImGuiTools
 
     void AtomImGuiToolsSystemComponent::OnCryEditorInitialized()
     {
-        AzFramework::ConsoleRequestBus::Broadcast(&AzFramework::ConsoleRequestBus::Events::ExecuteConsoleCommand, "imgui_DiscreteInputMode 1");
+        //AzFramework::ConsoleRequestBus::Broadcast(&AzFramework::ConsoleRequestBus::Events::ExecuteConsoleCommand, "imgui_DiscreteInputMode 1");
     }
 } // namespace AtomImGuiTools
