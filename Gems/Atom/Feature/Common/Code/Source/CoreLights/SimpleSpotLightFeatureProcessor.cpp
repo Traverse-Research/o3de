@@ -383,8 +383,24 @@ namespace AZ
             attenuationRadius = AZStd::max(0.02f, attenuationRadius);
             MakePerspectiveFovMatrixRH(viewToClipMatrix, halfFov * 2.0f, 1.0f, 0.01f, attenuationRadius, false);
 
+            // In-engine, spotlights shine in the -forward direction.
+            // Therefore, the forward axis has to be inverted to get the correct world to clip matrix for e.g. shadows.
             auto& extraData = m_lightData.GetData<1>(handle.GetIndex());
-            AZ::Matrix4x4 worldMatrix = AZ::Matrix4x4::CreateFromTransform(extraData.m_transform).GetInverseFast();
+
+
+            AZ::Vector3 basisX;
+            AZ::Vector3 basisY;
+            AZ::Vector3 basisZ;
+            AZ::Vector3 pos;
+            extraData.m_transform.GetBasisAndTranslation(&basisX, &basisY, &basisY, &pos);
+
+            auto spotLightMat4 = AZ::Matrix4x4::CreateFromTransform(Transform::CreateLookAt(pos, pos + basisX));
+
+            // auto rowIndex = 2;
+            // auto forward = spotLightMat4.GetRow(rowIndex);
+            // spotLightMat4.SetRow(rowIndex, -forward.GetX(), -forward.GetY(), -forward.GetZ(), forward.GetW());
+
+            AZ::Matrix4x4 worldMatrix = spotLightMat4.GetInverseFast();
             AZ::Matrix4x4 worldToClip = viewToClipMatrix * worldMatrix;
             worldToClip.StoreToRowMajorFloat16(lightData.m_viewProjectionMatrix.data());
         }
