@@ -387,18 +387,26 @@ namespace AZ
             // Therefore, the forward axis has to be inverted to get the correct world to clip matrix for e.g. shadows.
             auto& extraData = m_lightData.GetData<1>(handle.GetIndex());
 
+            AZ::Vector3 pos = extraData.m_transform.GetTranslation();
+            AZ::Vector3 forward = AZ::Vector3(lightData.m_direction[0], lightData.m_direction[1], lightData.m_direction[2]);
+            AZ::Vector3 right;
+            if (std::fabs(forward.GetY()) < 0.99) {
+                right = forward.Cross(AZ::Vector3(0, 1, 0));
+            }
+            else {
+                right = forward.Cross(AZ::Vector3(0, 0, 1));
+            }
+            right.Normalize();
 
-            AZ::Vector3 basisX;
-            AZ::Vector3 basisY;
-            AZ::Vector3 basisZ;
-            AZ::Vector3 pos;
-            extraData.m_transform.GetBasisAndTranslation(&basisX, &basisY, &basisY, &pos);
+            AZ::Vector3 up = right.Cross(forward);
+            up.Normalize();
 
-            auto spotLightMat4 = AZ::Matrix4x4::CreateFromTransform(Transform::CreateLookAt(pos, pos + basisX));
-
-            // auto rowIndex = 2;
-            // auto forward = spotLightMat4.GetRow(rowIndex);
-            // spotLightMat4.SetRow(rowIndex, -forward.GetX(), -forward.GetY(), -forward.GetZ(), forward.GetW());
+            auto spotLightMat4 = AZ::Matrix4x4::CreateIdentity();
+            spotLightMat4.SetBasisAndTranslation(
+                AZ::Vector4::CreateFromVector3AndFloat(right, 0),
+                AZ::Vector4::CreateFromVector3AndFloat(up, 0),
+                AZ::Vector4::CreateFromVector3AndFloat(-forward, 0),
+                AZ::Vector4::CreateFromVector3AndFloat(pos, 1));
 
             AZ::Matrix4x4 worldMatrix = spotLightMat4.GetInverseFast();
             AZ::Matrix4x4 worldToClip = viewToClipMatrix * worldMatrix;
